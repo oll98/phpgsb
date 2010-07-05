@@ -510,6 +510,7 @@ class phpGSB
 					unset($listdata[0]);
 					$formattedlist[$listname] = $listdata;				
 					}
+				$dumpcount = 0;
 				foreach($formattedlist as $key=>$value)
 					{	
 					$listname = $key;
@@ -518,6 +519,8 @@ class phpGSB
 						if(substr_count($valueinner,"u:")>0)
 							{
 							$chunkdata = $this->googleDownloader('http://'.trim(str_replace('u:','',$valueinner)),false,"data");
+							file_put_contents("DUMP".$dumpcount.".debug",$chunkdata[1]);
+							$dumpcount++;
 							$processed = $this->processChunks($chunkdata[1]);
 							$this->saveChunks($processed,$listname);
 							$this->outputmsg("Saved a chunk file");
